@@ -5,6 +5,12 @@
     <label class="inline-block mb-2">Name</label>
     <input type="text" formControlName="name" class="block w-full py-1.5 px-3 text-gray-200 border border-gray-400 transition
 duration-500 focus:outline-none rounded bg-transparent focus:border-indigo-400" placeholder="Enter Name" />
+    <p *ngIf="registerForm.controls.name.touched && registerForm.controls.name.errors?.required" class="text-red-400">
+      This field is required
+    </p>
+    <p *ngIf="registerForm.controls.name.touched && registerForm.controls.name.errors?.minlength" class="text-red-400">
+      Name cannot be less than three characters
+    </p>
   </div>
   <!-- Email -->
   <div class="mb-3">
