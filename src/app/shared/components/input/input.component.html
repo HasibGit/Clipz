@@ -1,12 +1,11 @@
-<input type="text" [formControl]="control" class="block w-full py-1.5 px-3 text-gray-200 border border-gray-400 transition
-duration-500 focus:outline-none rounded bg-transparent focus:border-indigo-400" placeholder="Enter Name" />
+<input [type]="type" [formControl]="control" class="block w-full py-1.5 px-3 text-gray-200 border border-gray-400 transition
+duration-500 focus:outline-none rounded bg-transparent focus:border-indigo-400" [placeholder]="placeholder" />
 
 
 <ng-container *ngIf="control.touched">
-  <p *ngIf="control.errors?.required" class="text-red-400">
-    This field is required
-  </p>
-  <p *ngIf="control.errors?.minlength" class="text-red-400">
-    Name cannot be less than three characters
+  <p [ngSwitch]="true" class="text-red-400">
+    <ng-container *ngSwitchCase="control.errors?.required">This field is required</ng-container>
+    <ng-container *ngSwitchCase="control.errors?.email">Invalid email</ng-container>
+    <ng-container *ngSwitchCase="control.errors?.minLength">Length is too short</ng-container>
   </p>
 </ng-container>
