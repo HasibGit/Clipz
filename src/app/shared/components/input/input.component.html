@@ -15,4 +15,7 @@ duration-500 focus:outline-none rounded bg-transparent focus:border-indigo-400" 
   <p *ngIf="control.errors?.min" class="text-red-400">
     Value is too low
   </p>
+  <p *ngIf="control.errors?.pattern" class="text-red-400">
+    Passwords must be at least 8 characters long, have 1 uppercase letter, 1 lowercase letter and 1 number
+  </p>
 </ng-container>

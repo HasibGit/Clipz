@@ -11,7 +11,10 @@ export class RegisterComponent implements OnInit {
   name = new FormControl('', [Validators.required, Validators.minLength(3)]);
   email = new FormControl('', [Validators.required, Validators.email]);
   age = new FormControl('', [Validators.required, Validators.min(18)]);
-  password = new FormControl('');
+  password = new FormControl('', [
+    Validators.required,
+    Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm),
+  ]);
   confirmPassword = new FormControl('');
   phoneNumber = new FormControl('');
 
