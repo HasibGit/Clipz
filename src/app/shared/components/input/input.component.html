@@ -3,9 +3,16 @@ duration-500 focus:outline-none rounded bg-transparent focus:border-indigo-400" 
 
 
 <ng-container *ngIf="control.touched">
-  <p [ngSwitch]="true" class="text-red-400">
-    <ng-container *ngSwitchCase="control.errors?.required">This field is required</ng-container>
-    <ng-container *ngSwitchCase="control.errors?.email">Invalid email</ng-container>
-    <ng-container *ngSwitchCase="control.errors?.minLength">Length is too short</ng-container>
+  <p *ngIf="control.errors?.required" class="text-red-400">
+    This field is required
+  </p>
+  <p *ngIf="control.errors?.email" class="text-red-400">
+    Invalid email
+  </p>
+  <p *ngIf="control.errors?.minlength" class="text-red-400">
+    Length is too short
+  </p>
+  <p *ngIf="control.errors?.min" class="text-red-400">
+    Value is too low
   </p>
 </ng-container>
