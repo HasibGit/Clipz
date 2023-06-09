@@ -16,7 +16,11 @@ export class RegisterComponent implements OnInit {
     Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm),
   ]);
   confirmPassword = new FormControl('');
-  phoneNumber = new FormControl('');
+  phoneNumber = new FormControl('', [
+    Validators.required,
+    Validators.minLength(17),
+    Validators.maxLength(17),
+  ]);
 
   constructor() {}
 

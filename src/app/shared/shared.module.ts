@@ -5,7 +5,7 @@ import { TabsContainerComponent } from './components/tabs-container/tabs-contain
 import { TabComponent } from './components/tab/tab.component';
 import { InputComponent } from './components/input/input.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { provideEnvironmentNgxMask, NgxMaskDirective } from 'ngx-mask';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -14,13 +14,18 @@ import { provideEnvironmentNgxMask, NgxMaskDirective } from 'ngx-mask';
     TabComponent,
     InputComponent,
   ],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgxMaskDirective],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgxMaskModule.forRoot(),
+  ],
   exports: [
     ModalComponent,
     TabsContainerComponent,
     TabComponent,
     InputComponent,
   ],
-  providers: [provideEnvironmentNgxMask()],
+  providers: [],
 })
 export class SharedModule {}
