@@ -22,6 +22,10 @@ export class RegisterComponent implements OnInit {
     Validators.maxLength(17),
   ]);
 
+  alertColor = 'blue';
+  alertMsg = '';
+  showAlert = false;
+
   constructor() {}
 
   ngOnInit(): void {
@@ -40,6 +44,8 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('register called');
+    this.showAlert = true;
+    this.alertMsg = 'Please wait. Your account is being created!';
+    this.alertColor = 'blue';
   }
 }

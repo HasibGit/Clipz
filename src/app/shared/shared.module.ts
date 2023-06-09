@@ -6,6 +6,7 @@ import { TabComponent } from './components/tab/tab.component';
 import { InputComponent } from './components/input/input.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { AlertComponent } from './components/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { NgxMaskModule, IConfig } from 'ngx-mask';
     TabsContainerComponent,
     TabComponent,
     InputComponent,
+    AlertComponent,
   ],
   imports: [
     CommonModule,
@@ -25,6 +27,7 @@ import { NgxMaskModule, IConfig } from 'ngx-mask';
     TabsContainerComponent,
     TabComponent,
     InputComponent,
+    AlertComponent,
   ],
   providers: [],
 })
