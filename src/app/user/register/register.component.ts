@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-register',
@@ -26,7 +28,9 @@ export class RegisterComponent implements OnInit {
   alertMsg = '';
   showAlert = false;
 
-  constructor() {}
+  isLoading = false;
+
+  constructor(private _afa: AngularFireAuth, private _db: AngularFirestore) {}
 
   ngOnInit(): void {
     this.initializeRegisterForm();
@@ -43,9 +47,39 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  async register() {
+    this.isLoading = true;
     this.showAlert = true;
     this.alertMsg = 'Please wait. Your account is being created!';
     this.alertColor = 'blue';
+
+    const { email, password } = this.registerForm.getRawValue();
+
+    try {
+      // Register user
+      const userCred = await this._afa.createUserWithEmailAndPassword(
+        email as string,
+        password as string
+      );
+
+      // Store user info in users collection
+      const newUser = {
+        name: this.name.value,
+        email: this.email.value,
+        age: this.age.value,
+        phoneNumber: this.phoneNumber.value,
+      };
+
+      await this._db.collection('users').add(newUser);
+    } catch (e) {
+      this.alertMsg = 'Sorry, something went wrong!';
+      this.alertColor = 'red';
+      this.isLoading = false;
+    }
+
+    this.alertMsg =
+      'Congratulations! You have successfully created your account.';
+    this.alertColor = 'green';
+    this.isLoading = false;
   }
 }
