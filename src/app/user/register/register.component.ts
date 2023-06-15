@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { IUser } from '../../models/user.model';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -12,7 +12,10 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   name = new FormControl('', [Validators.required, Validators.minLength(3)]);
   email = new FormControl('', [Validators.required, Validators.email]);
-  age = new FormControl('', [Validators.required, Validators.min(18)]);
+  age = new FormControl<number | null>(null, [
+    Validators.required,
+    Validators.min(18),
+  ]);
   password = new FormControl('', [
     Validators.required,
     Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/),
@@ -30,7 +33,7 @@ export class RegisterComponent implements OnInit {
 
   isLoading = false;
 
-  constructor(private _afa: AngularFireAuth, private _db: AngularFirestore) {}
+  constructor(private _authService: AuthService) {}
 
   ngOnInit(): void {
     this.initializeRegisterForm();
@@ -53,24 +56,8 @@ export class RegisterComponent implements OnInit {
     this.alertMsg = 'Please wait. Your account is being created!';
     this.alertColor = 'blue';
 
-    const { email, password } = this.registerForm.getRawValue();
-
     try {
-      // Register user
-      const userCred = await this._afa.createUserWithEmailAndPassword(
-        email as string,
-        password as string
-      );
-
-      // Store user info in users collection
-      const newUser = {
-        name: this.name.value,
-        email: this.email.value,
-        age: this.age.value,
-        phoneNumber: this.phoneNumber.value,
-      };
-
-      await this._db.collection('users').add(newUser);
+      await this._authService.createUser(this.registerForm.value as IUser);
     } catch (e) {
       this.alertMsg = 'Sorry, something went wrong!';
       this.alertColor = 'red';
