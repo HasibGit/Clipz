@@ -22,7 +22,7 @@ export class AuthService {
     }
 
     // Register user
-    await this._afa.createUserWithEmailAndPassword(
+    const userCred = await this._afa.createUserWithEmailAndPassword(
       userData.email,
       userData.password
     );
@@ -35,6 +35,14 @@ export class AuthService {
       phoneNumber: userData.phoneNumber,
     };
 
-    await this.usersCollection.add(newUser);
+    if (!userCred.user) {
+      throw new Error('User not found');
+    }
+
+    await this.usersCollection.doc(userCred.user?.uid).set(newUser);
+
+    await userCred.user.updateProfile({
+      displayName: userData.name,
+    });
   }
 }
