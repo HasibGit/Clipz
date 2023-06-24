@@ -4,7 +4,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { map, Observable } from 'rxjs';
+import { delay, map, Observable } from 'rxjs';
 import { IUser } from '../models/user.model';
 
 @Injectable({
@@ -13,10 +13,12 @@ import { IUser } from '../models/user.model';
 export class AuthService {
   usersCollection: AngularFirestoreCollection<IUser>;
   isAuthenticated$: Observable<boolean>;
+  isAuthenticatedWithDelay$: Observable<boolean>;
 
   constructor(private _afa: AngularFireAuth, private _db: AngularFirestore) {
     this.usersCollection = this._db.collection('users');
     this.isAuthenticated$ = this._afa.user.pipe(map((user) => !!user));
+    this.isAuthenticatedWithDelay$ = this.isAuthenticated$.pipe(delay(1000));
   }
 
   async createUser(userData: IUser) {
